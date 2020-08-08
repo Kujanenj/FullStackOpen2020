@@ -12,29 +12,59 @@ const FilterInput = ({ filterString, handleFilterChange}) => {
 function filterCountries(countriesToFilter, filterString) {
   return countriesToFilter.filter((country) => country.name.includes(filterString));
 }
-const PrintCountries = ({ countries, filterString }) => {
-  var filteredCountries = filterCountries(countries, filterString)
-  console.log(filterCountries(countries, filterString))
-  console.log(filteredCountries[0])
+const PrintFlag=({Flag}) =>{
   return(
-    <div>
-      filteredCountries[0].name
-    </div>
+    <img src={Flag} width="300" height="200"></img>
   )
-  if(filteredCountries.lenght < 10){
+}
+const PrintLanguages = ({languages}) =>{
   return (
     <div>
-        {filteredCountries.map((country) => (
-        <li key={country.name}>
-          {console.log(country.name)}
-        </li>
-      ))}
+    <h2>Languages</h2>
+   {languages.map((language) =>(<li key = {language.name}> {language.name}</li>))}
+  </div>
+  )
+}
+const PrintSingleCountry  = ({country}) =>{
+  return (
+    <div>
+    <h1> {country.name}</h1>
+    
+    Capital {country.capital} <br></br>
+ 
+    Population {country.population}<br></br>
+    <PrintLanguages languages = {country.languages}></PrintLanguages>
+    <PrintFlag Flag={country.flag}></PrintFlag>
     </div>
   )
+}
+const PrintCountries = ({ countries, filterString }) => {
+
+  var filteredCountries = filterCountries(countries, filterString)
+  if(filteredCountries[0]!=undefined){
+    if(filteredCountries.length===1){
+      return(
+      <PrintSingleCountry country={filteredCountries[0]}>
+
+      </PrintSingleCountry>)
+    }
+    if(filteredCountries.length < 10){
+      console.log("Less than 10")
+      return (
+        <div>
+          {filteredCountries.map((country) => (<li key={country.name}>{country.name} </li>))}
+      </div>
+    )
+  }
+  else{
+    return <div>too many</div>
+  }
 }
 else{
   return <div>too many</div>
 }
+    
+  
 };
 function App() {
   const [countries, setCountries] = useState([]);
