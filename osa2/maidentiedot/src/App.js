@@ -58,7 +58,7 @@ const PrintSingleCountry  = ({country}) =>{
   )
 }
 
-const PrintCountries = ({ filteredCountries}) => {
+const PrintCountries = ({ filteredCountries, setFilter}) => {
   if(filteredCountries[0]!=undefined){
     if(filteredCountries.length===1){
       return(
@@ -72,7 +72,9 @@ const PrintCountries = ({ filteredCountries}) => {
       console.log("Less than 10")
       return (
         <div>
-          {filteredCountries.map((country) => (<li key={country.name}>{country.name}</li>))}
+          {filteredCountries.map((country) => (<li key={country.name}>{country.name}
+            <button onClick={() => setFilter(country.name)}>
+          Show</button></li>))}
       </div>
     )
   }
@@ -86,8 +88,9 @@ else{
   
 };
 function App() {
+  const api_key = process.env.REACT_APP_API_KEY
   const [countries, setCountries] = useState([]);
-  const [filterString, setNewNameFilter] = useState("");
+  const [filterString, setNewFilter] = useState("");
   const [wheatherData, setwheatherData] = useState([])
  
   const countryHook = () => {
@@ -99,7 +102,7 @@ function App() {
     })
   }
   const handleFilterChange = (event) => {
-    setNewNameFilter(event.target.value);
+    setNewFilter(event.target.value);
     
   };
   var singleCountry
@@ -111,7 +114,7 @@ function App() {
   useEffect(countryHook,[])
   const weatherHook = () =>{
     if(singleCountry!=undefined){
-    axios.get("http://api.weatherapi.com/v1/current.json?key=fceec26d378b4612b15120546200908&q="+singleCountry.capital)
+    axios.get("http://api.weatherapi.com/v1/current.json?key="+api_key+"="+singleCountry.capital)
     .then(response =>{
       if(singleCountry!=undefined){
       console.log(singleCountry.capital)
@@ -130,7 +133,7 @@ function App() {
         handleFilterChange={handleFilterChange}>
         </FilterInput>
         
-      <PrintCountries filteredCountries={filteredCountries}></PrintCountries>
+      <PrintCountries filteredCountries={filteredCountries} setFilter = {setNewFilter}></PrintCountries>
       <PrintwheatherData country={singleCountry} data={wheatherData}></PrintwheatherData>
   </div>
   )

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios'
 function checkForCollision(myarray, name) {
   for (let i = 0; i < myarray.length; i++) {
     if (myarray[i].name === name) {
@@ -10,6 +11,7 @@ function checkForCollision(myarray, name) {
 function filterNames(persons, name) {
   return persons.filter((person) => person.name.includes(name));
 }
+
 const FilterInput = ({ nameFilter, handleFilterChange }) => {
   return (
     <div>
@@ -51,15 +53,19 @@ const PrintNames = ({ names, nameFilter }) => {
   );
 };
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456" },
-    { name: "Ada Lovelace", number: "39-44-5323523" },
-    { name: "Dan Abramov", number: "12-43-234345" },
-    { name: "Mary Poppendieck", number: "39-23-6423122" },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [number, setNewNumber] = useState("");
   const [nameFilter, setNewNameFilter] = useState("");
+  const hook = () => {
+    console.log('effect')
+    axios
+    .get('http://localhost:3001/persons')
+    .then(response => {
+      console.log('promise fulfilled')
+      setPersons(response.data)
+    })
+  }
   const addName = (event) => {
     event.preventDefault();
     const nameObject = {
@@ -71,13 +77,13 @@ const App = () => {
     } else {
       console.log("ei osunut");
     }
-
+    
     checkForCollision(persons, newName)
-      ? window.alert(newName + " is already in phonebook")
-      : setPersons(persons.concat(nameObject));
+    ? window.alert(newName + " is already in phonebook")
+    : setPersons(persons.concat(nameObject));
     setNewName("");
   };
-
+  
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -87,7 +93,8 @@ const App = () => {
   const handeNumberChange = (event) => {
     setNewNumber(event.target.value);
   };
-
+  useEffect(hook,[])
+  
   return (
     <div>
       <h2>Phonebook</h2>
