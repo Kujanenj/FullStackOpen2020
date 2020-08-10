@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import PersonsService from './services/Persons'
+
+
+
 function checkForCollision(myarray, name) {
   for (let i = 0; i < myarray.length; i++) {
     if (myarray[i].name === name) {
-      return true;
+      return myarray[i]
     }
   }
-  return false;
+  return null
 }
 function filterNames(persons, name) {
   return persons.filter((person) => person.name.includes(name));
@@ -41,49 +45,59 @@ const PersonsForm = ({
     </form>
   );
 };
-const PrintNames = ({ names, nameFilter }) => {
+
+const PrintNames = ({ persons, nameFilter , handleDeleteButton}) => {
   return (
     <div>
-      {filterNames(names, nameFilter).map((person) => (
+      {filterNames(persons, nameFilter).map((person) => (
         <li key={person.name}>
-          {person.name} {person.number}
+          {person.name} {person.number} <button onClick = {() => handleDeleteButton(person.id)}>del</button>
         </li>
       ))}
     </div>
   );
 };
+
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [number, setNewNumber] = useState("");
   const [nameFilter, setNewNameFilter] = useState("");
-  const hook = () => {
-    console.log('effect')
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('promise fulfilled')
-      setPersons(response.data)
-    })
-  }
   const addName = (event) => {
     event.preventDefault();
-    const nameObject = {
+    const personObject = {
       name: newName,
       number: number,
     };
-    if (checkForCollision(persons, newName)) {
-      console.log("collision");
-    } else {
-      console.log("ei osunut");
-    }
     
-    checkForCollision(persons, newName)
-    ? window.alert(newName + " is already in phonebook")
-    : setPersons(persons.concat(nameObject));
-    setNewName("");
+    var collisionResult = checkForCollision(persons, newName)
+    if(collisionResult!= null){
+        handleNumberChange(collisionResult,number)
+    }
+    else{
+      PersonsService
+      .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons
+          .concat(returnedPerson))})
+          setNewName('')
+    }
   };
-  
+  const handleNumberChange =(personToUpdate,newNumber) =>{
+    if (window.confirm("Do you really want to update?")){
+        PersonsService.update(personToUpdate.id,{...personToUpdate, number: newNumber}).then(response =>{
+          setPersons(persons.map(person => person.id === personToUpdate.id ? response : person))
+        }
+        )
+    }
+  }
+  const handleDeleteButton =(id) =>{
+    if (window.confirm("Do you really want to del?")) { 
+        PersonsService.remove(id).then(response =>{
+        setPersons(persons.filter(person => person.id != id))
+        })
+    }
+  }
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -93,15 +107,20 @@ const App = () => {
   const handeNumberChange = (event) => {
     setNewNumber(event.target.value);
   };
-  useEffect(hook,[])
-  
+
+  useEffect(() =>{
+    PersonsService.getAll().then(people =>{
+      setPersons(people)
+    })
+  },[])
+
   return (
     <div>
       <h2>Phonebook</h2>
       <FilterInput
         nameFilter={nameFilter}
         handleFilterChange={handleFilterChange}
-      ></FilterInput>
+        ></FilterInput>
       <h2> Add a new </h2>
       <PersonsForm
         addName={addName}
@@ -109,9 +128,9 @@ const App = () => {
         handleNameChange={handleNameChange}
         number={number}
         handeNumberChange={handeNumberChange}
-      ></PersonsForm>
+        ></PersonsForm>
       <h2>Numbers</h2>
-      <PrintNames names={persons} nameFilter={nameFilter}></PrintNames>
+      <PrintNames persons={persons} nameFilter={nameFilter}handleDeleteButton = {handleDeleteButton}></PrintNames>
     </div>
   );
 };
