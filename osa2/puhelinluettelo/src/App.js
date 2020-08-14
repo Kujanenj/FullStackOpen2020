@@ -21,7 +21,7 @@ const App = () => {
     setCurrentNotification({ message: msg, style: styl });
     setTimeout(() => {
       setCurrentNotification({ msg: null, style: "uusi" });
-    }, 2500);
+    }, 4000);
   };
   const filteredPersons = persons.filter((person) => {
     // if filter is empty, return all names

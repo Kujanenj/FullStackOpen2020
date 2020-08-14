@@ -30,6 +30,8 @@ const PersonsForm = ({persons,setPersons,handleMessageChange}) => {
         PhoneService.create(newPersonObject).then((returnedPerson) => {
           setPersons(persons.concat(returnedPerson));
           handleMessageChange("New person added","add")
+        }).catch(error => {
+          handleMessageChange(JSON.stringify(error.response.data.error),"remove")
         });
         
       }
