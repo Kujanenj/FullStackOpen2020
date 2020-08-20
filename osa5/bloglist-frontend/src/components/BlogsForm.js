@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import loginService from '../services/login'
+import React from 'react'
 
 const BlogsForm = (blogAuthor,blogUrl,blogTitle,setBlogAuthor,setBlogUrl,setBlogTitle,handleCreateNewBlog) => (
     <div>

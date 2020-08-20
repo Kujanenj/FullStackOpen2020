@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import Blog from './components/Blog'
 import Notification from "./components/Notification";
 import BlogsForm from "./components/BlogsForm"
+import LoginForm from "./components/LoginForm"
 import "./App.css"
 
 const App = () => {
@@ -100,33 +101,7 @@ const App = () => {
     </div>
   )
   
-  const loginForm = () => (
-    <div>
-      <h1>PLox log in</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-    <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-            />
-        </div>
-        <div>
-          password
-    <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
 
-    </div>
-  )
   
 
   return (
@@ -137,7 +112,7 @@ const App = () => {
       ></Notification>
       <div>
         {user === null ?
-          loginForm() :
+          LoginForm(handleLogin,username,setUsername,password,setPassword) :
           <div>
             <p>{user.name} logged in</p>
             <button onClick={logOut}>  logOut
