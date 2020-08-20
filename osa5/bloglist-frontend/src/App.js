@@ -5,6 +5,7 @@ import Blog from './components/Blog'
 import Notification from "./components/Notification";
 import BlogsForm from "./components/BlogsForm"
 import LoginForm from "./components/LoginForm"
+import printBlogs from "./components/PrintBlogs"
 import "./App.css"
 
 const App = () => {
@@ -79,9 +80,7 @@ const App = () => {
     }
     
   }, [])
-  /*  if(user != null){
-    blogService.setToken(user.token)
-  }*/
+ 
   
   useEffect(() => {      
     console.log("Trying to use effec")
@@ -91,18 +90,6 @@ const App = () => {
       setBlogs(blogs)
     )}
   , [])
-  const printBlogs = () => (
-    
-    <div>
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-        )}
-    </div>
-  )
-  
-
-  
 
   return (
     <div>
@@ -118,7 +105,7 @@ const App = () => {
             <button onClick={logOut}>  logOut
              </button>
              {BlogsForm(blogAuthor,blogUrl,blogTitle,setBlogAuthor,setBlogUrl,setBlogTitle,handleCreateNewBlog)}
-            {printBlogs()}
+            {printBlogs(blogs)}
             
           </div>
         }
