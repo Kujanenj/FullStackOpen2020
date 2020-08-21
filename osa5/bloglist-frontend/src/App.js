@@ -30,6 +30,7 @@ const App = () => {
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
   const [blogs, setBlogs] = useState([])
+  const [loginVisible, setLoginVisible] = useState(false)
 
   const handleCreateNewBlog = async (event) => {
     event.preventDefault()
@@ -69,6 +70,51 @@ const App = () => {
     
     }
   }
+ const blogsForm = () => {
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setLoginVisible(true)}>Add Blog </button>
+        </div>
+        <div style={showWhenVisible}>
+       <BlogsForm 
+       blogAuthor={blogAuthor}
+       blogTitle={blogTitle}
+       blogUrl={blogUrl}
+       handleAuthorChange={({ target }) => setBlogAuthor(target.value)}
+       handleTitleChange={({ target }) => setBlogTitle(target.value)}
+       handleUrlChange={({ target }) => setBlogUrl(target.value)}
+       handleCreateNewBlog={handleCreateNewBlog}></BlogsForm> 
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
+        </div>
+      </div>
+    )
+  }
+  const loginForm = () => {
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setLoginVisible(true)}>log in</button>
+        </div>
+        <div style={showWhenVisible}>
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
+        </div>
+      </div>
+    )
+  }
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
@@ -99,12 +145,12 @@ const App = () => {
       ></Notification>
       <div>
         {user === null ?
-          LoginForm(handleLogin,username,setUsername,password,setPassword) :
+        loginForm() :
           <div>
             <p>{user.name} logged in</p>
             <button onClick={logOut}>  logOut
              </button>
-             {BlogsForm(blogAuthor,blogUrl,blogTitle,setBlogAuthor,setBlogUrl,setBlogTitle,handleCreateNewBlog)}
+             {blogsForm()}
             {printBlogs(blogs)}
             
           </div>

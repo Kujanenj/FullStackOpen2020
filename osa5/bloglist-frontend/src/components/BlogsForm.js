@@ -1,40 +1,44 @@
 import React from 'react'
 
-const BlogsForm = (blogAuthor,blogUrl,blogTitle,setBlogAuthor,setBlogUrl,setBlogTitle,handleCreateNewBlog) => (
+const BlogsForm = ({
+  blogAuthor,
+  blogUrl,
+  blogTitle,
+  handleTitleChange,
+  handleUrlChange,
+  handleAuthorChange,
+  handleCreateNewBlog 
+})=> {
+  return (
     <div>
       <h2>Create new blogy</h2>
       <form onSubmit={handleCreateNewBlog}>
         <div>
           title:
           <input
-            type="text"
             value={blogTitle}
-            name="BlogTitle"
-            onChange={({ target }) => setBlogTitle(target.value)}
-          ></input>
+            onChange={handleTitleChange}
+          />
           <div></div>
           Author:
           <input
-            type="text"
             value={blogAuthor}
-            name="BlogAuthor"
-            onChange={({ target }) => setBlogAuthor(target.value)}
+            onChange={handleAuthorChange}
           ></input>
-          
+
           <div></div>
-          Url
+          Url:
           <input
-            type="text"
             value={blogUrl}
-            name="BlogUrl"
-            onChange={({ target }) => setBlogUrl(target.value)}
+            onChange={handleUrlChange}
           >
           </input>
           <div>
-           <button type="submit">Add</button>
-           </div>
+            <button type="submit">Add</button>
+          </div>
         </div>
       </form>
     </div>
   )
-  export default BlogsForm
+}
+export default BlogsForm
