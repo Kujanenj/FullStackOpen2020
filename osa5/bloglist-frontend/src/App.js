@@ -31,6 +31,7 @@ const App = () => {
   const [blogUrl, setBlogUrl] = useState('')
   const [blogs, setBlogs] = useState([])
   const [loginVisible, setLoginVisible] = useState(false)
+  const [addBlogVisible,setAddBlogVisible] = useState(false)
 
   const handleCreateNewBlog = async (event) => {
     event.preventDefault()
@@ -71,13 +72,13 @@ const App = () => {
     }
   }
  const blogsForm = () => {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+    const hideWhenVisible = { display: addBlogVisible ? 'none' : '' }
+    const showWhenVisible = { display: addBlogVisible ? '' : 'none' }
 
     return (
       <div>
         <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>Add Blog </button>
+          <button onClick={() => setAddBlogVisible(true)}>Add Blog </button>
         </div>
         <div style={showWhenVisible}>
        <BlogsForm 
@@ -88,7 +89,7 @@ const App = () => {
        handleTitleChange={({ target }) => setBlogTitle(target.value)}
        handleUrlChange={({ target }) => setBlogUrl(target.value)}
        handleCreateNewBlog={handleCreateNewBlog}></BlogsForm> 
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
+          <button onClick={() => setAddBlogVisible(false)}>cancel</button>
         </div>
       </div>
     )
