@@ -27,30 +27,8 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [blogTitle, setBlogTitle] = useState('')
-  const [blogAuthor, setBlogAuthor] = useState('')
-  const [blogUrl, setBlogUrl] = useState('')
-  const [blogs, setBlogs] = useState([])
-  const handleCreateNewBlog = async (event) => {
-    event.preventDefault()
-    try{
-      const newBlog = await 
-        blogService.create({
-          title: blogTitle,
-          author: blogAuthor,
-          url: blogUrl,
-          user: user
-        })
-        console.log(newBlog)
-        blogFormRef.current.toggleVisibility()
-        setBlogs(blogs.concat(newBlog))
-        handleMessageChange("New blog","add")
-      
-
-    }catch(exception){
-      handleMessageChange("Bad request or something i guess?",'remove')
-    }
-  }
+    const [blogs, setBlogs] = useState([])
+  
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -70,16 +48,15 @@ const App = () => {
     
     }
   }
+  const createNewBlog=async (blogObject) =>{
+    //blogFormRef.current.toggleVisibility()
+    const returnedBlog =await blogService.create(blogObject)
+    setBlogs(blogs.concat(returnedBlog))
+  }
  const blogsForm = () => (
-    <Togglable buttonLabel ="add Blog"ref={blogFormRef}>
-       <BlogsForm 
-       blogAuthor={blogAuthor}
-       blogTitle={blogTitle}
-       blogUrl={blogUrl}
-       handleAuthorChange={({ target }) => setBlogAuthor(target.value)}
-       handleTitleChange={({ target }) => setBlogTitle(target.value)}
-       handleUrlChange={({ target }) => setBlogUrl(target.value)}
-       handleCreateNewBlog={handleCreateNewBlog}/>
+    <Togglable buttonLabel ="add Blog" ref={blogFormRef}>
+       <BlogsForm user = {user}
+       createNewBlog={createNewBlog}/>
        </Togglable>
          
   )
