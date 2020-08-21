@@ -1,9 +1,9 @@
 import React from 'react'
 import Blog from './Blog'
 
-const Printblogs = (blogs) => (
+const Printblogs = ({blogs}) => {
 
-
+    return(
     <div>
         <h2>blogs</h2>
         {blogs.map(blog =>
@@ -11,5 +11,5 @@ const Printblogs = (blogs) => (
         )}
     </div>
 
-)
+    )}
 export default Printblogs

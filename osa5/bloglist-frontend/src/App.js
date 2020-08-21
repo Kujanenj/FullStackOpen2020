@@ -5,7 +5,7 @@ import Togglable from './components/Togglable'
 import Notification from "./components/Notification";
 import BlogsForm from "./components/BlogsForm"
 import LoginForm from "./components/LoginForm"
-import printBlogs from "./components/PrintBlogs"
+import PrintBlogs from "./components/PrintBlogs"
 import "./App.css"
 
 const App = () => {
@@ -27,7 +27,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-    const [blogs, setBlogs] = useState([])
+   const [blogs, setBlogs] = useState([])
   
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -71,6 +71,11 @@ const App = () => {
       />
     </Togglable>
   )
+  const printBlogs = () => (
+    <Togglable buttonLabel ="show">
+      <PrintBlogs blogs = {blogs}></PrintBlogs>
+    </Togglable>
+  )
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -93,7 +98,7 @@ const App = () => {
       setBlogs(blogs)
     )}
   , [])
-
+      console.log(blogs)
   return (
     <div>
       <Notification
