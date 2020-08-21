@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState,useEffect, useRef } from 'react'
 import loginService from './services/login'
 import blogService from './services/blogs'
-import Blog from './components/Blog'
+import Togglable from './components/Togglable'
 import Notification from "./components/Notification";
 import BlogsForm from "./components/BlogsForm"
 import LoginForm from "./components/LoginForm"
@@ -9,6 +9,7 @@ import printBlogs from "./components/PrintBlogs"
 import "./App.css"
 
 const App = () => {
+  const blogFormRef = useRef()
   const logOut = () => {
     window.localStorage.removeItem('loggedUser')
     setUser(null)
@@ -30,9 +31,6 @@ const App = () => {
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
   const [blogs, setBlogs] = useState([])
-  const [loginVisible, setLoginVisible] = useState(false)
-  const [addBlogVisible,setAddBlogVisible] = useState(false)
-
   const handleCreateNewBlog = async (event) => {
     event.preventDefault()
     try{
@@ -44,6 +42,7 @@ const App = () => {
           user: user
         })
         console.log(newBlog)
+        blogFormRef.current.toggleVisibility()
         setBlogs(blogs.concat(newBlog))
         handleMessageChange("New blog","add")
       
@@ -71,16 +70,8 @@ const App = () => {
     
     }
   }
- const blogsForm = () => {
-    const hideWhenVisible = { display: addBlogVisible ? 'none' : '' }
-    const showWhenVisible = { display: addBlogVisible ? '' : 'none' }
-
-    return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setAddBlogVisible(true)}>Add Blog </button>
-        </div>
-        <div style={showWhenVisible}>
+ const blogsForm = () => (
+    <Togglable buttonLabel ="add Blog"ref={blogFormRef}>
        <BlogsForm 
        blogAuthor={blogAuthor}
        blogTitle={blogTitle}
@@ -88,34 +79,22 @@ const App = () => {
        handleAuthorChange={({ target }) => setBlogAuthor(target.value)}
        handleTitleChange={({ target }) => setBlogTitle(target.value)}
        handleUrlChange={({ target }) => setBlogUrl(target.value)}
-       handleCreateNewBlog={handleCreateNewBlog}></BlogsForm> 
-          <button onClick={() => setAddBlogVisible(false)}>cancel</button>
-        </div>
-      </div>
-    )
-  }
-  const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+       handleCreateNewBlog={handleCreateNewBlog}/>
+       </Togglable>
+         
+  )
+  const loginForm = () => (
+    <Togglable buttonLabel='login'>
+      <LoginForm
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleSubmit={handleLogin}
+      />
+    </Togglable>
+  )
 
-    return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
-        </div>
-        <div style={showWhenVisible}>
-          <LoginForm
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          />
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
-        </div>
-      </div>
-    )
-  }
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
