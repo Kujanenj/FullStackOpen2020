@@ -7,8 +7,6 @@ const setToken = (newToken) =>{
 const getAll = () => {
 
   const config = { headers: { Authorization: token }, }
-  console.log("hgere")
-  console.log(config)
   const request = axios.get(baseUrl, config)
   return request.then(response => response.data)
 }
@@ -19,5 +17,10 @@ const create = async newObject => {
 
 
 }
+const addLike = async newObject => {
+  const config = {headers: {Authorization: token},}
+  const response = await axios.put(`${baseUrl}/${newObject.id}`,newObject,config)
+  return response.data
+}
 
-export default { getAll, create,  setToken  }
+export default { getAll, create,  setToken,addLike }
