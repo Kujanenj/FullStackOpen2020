@@ -34,11 +34,17 @@ const App = () => {
     console.log(blogObject.likes)
     blogObject.likes += 1
     console.log(blogObject.likes)
-    const response = blogService.addLike(blogObject)
+    const response = await blogService.addLike(blogObject)
 
     setBlogs(blogs.map(blog => blog.id === response.id ? response : blog))
-  }
- 
+    
+    console.log(blogs)
+    setBlogs(blogs.sort((first, second) =>{
+      return first['likes'] > second['likes'] ? -1 : 1}))
+  
+    console.log(blogs)
+    }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -82,57 +88,57 @@ const App = () => {
     </Togglable>
   )
   const printBlogs = () => (
-      < Togglable buttonLabel = "show" >
+    < Togglable buttonLabel="show" >
       <PrintBlogs blogs={blogs} addLikeFunc={addLikeFunc}></PrintBlogs>
     </Togglable >
   )
 
-useEffect(() => {
-  const loggedUserJSON = window.localStorage.getItem('loggedUser')
-  if (loggedUserJSON) {
-    const oldUser = JSON.parse(loggedUserJSON)
-    setUser(oldUser)
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    if (loggedUserJSON) {
+      const oldUser = JSON.parse(loggedUserJSON)
+      setUser(oldUser)
 
 
-    blogService.setToken(oldUser.token)
+      blogService.setToken(oldUser.token)
+    }
+
+  }, [])
+
+
+  useEffect(() => {
+    blogService.getAll().then(blogs =>
+      setBlogs(blogs.sort((first, second) => first['likes'] > second['likes'] ? -1 : 1))
+
+    )
+
   }
+    , [])
+ 
 
-}, [])
 
-
-useEffect(() => {
-  blogService.getAll().then(blogs =>
-    setBlogs(blogs)
-  )
-}
-  , [])
-  useEffect(()=>{
-    console.log("***************")
-   setBlogs(blogs.sort((first,second)=> first['likes']>second['likes']))
-  },[blogs])
-
-return (
-  <div>
-    <Notification
-      message={currentNotification.message}
-      style={currentNotification.style}
-    ></Notification>
+  return (
     <div>
-      {user === null ?
-        loginForm() :
-        <div>
-          <p>{user.name} logged in</p>
-          <button onClick={logOut}>  logOut
+      <Notification
+        message={currentNotification.message}
+        style={currentNotification.style}
+      ></Notification>
+      <div>
+        {user === null ?
+          loginForm() :
+          <div>
+            <p>{user.name} logged in</p>
+            <button onClick={logOut}>  logOut
              </button>
-          {blogsForm()}
-          {printBlogs()}
+            {blogsForm()}
+            {printBlogs()}
 
-        </div>
-      }
+          </div>
+        }
 
+      </div>
     </div>
-  </div>
-)
+  )
 }
 
 export default App
