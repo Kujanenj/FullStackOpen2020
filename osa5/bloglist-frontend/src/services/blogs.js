@@ -18,9 +18,15 @@ const create = async newObject => {
 
 }
 const addLike = async newObject => {
+  console.log(newObject)
   const config = {headers: {Authorization: token},}
   const response = await axios.put(`${baseUrl}/${newObject.id}`,newObject,config)
   return response.data
 }
-
-export default { getAll, create,  setToken,addLike }
+const removeBlog = async objectToDelete => {
+  console.log(objectToDelete)
+  const config = {headers: {Authorization: token},}
+  const response = await axios.delete(`${baseUrl}/${objectToDelete.id}`, config)
+  return response.statu
+}
+export default { getAll, create,  setToken,addLike,removeBlog }

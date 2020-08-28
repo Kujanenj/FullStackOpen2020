@@ -31,18 +31,23 @@ const App = () => {
 
 
   const addLikeFunc = async (blogObject) => {
-    console.log(blogObject.likes)
+   
     blogObject.likes += 1
-    console.log(blogObject.likes)
+    
     const response = await blogService.addLike(blogObject)
 
     setBlogs(blogs.map(blog => blog.id === response.id ? response : blog))
     
-    console.log(blogs)
+   
     setBlogs(blogs.sort((first, second) =>{
       return first['likes'] > second['likes'] ? -1 : 1}))
   
-    console.log(blogs)
+    
+    }
+    const deleteFunc = async (blogObject) =>{
+      await blogService.removeBlog(blogObject)
+        
+      setBlogs(blogs.filter(blog => blog.id !== blogObject.id ? true : false ))
     }
 
   const handleLogin = async (event) => {
@@ -89,7 +94,7 @@ const App = () => {
   )
   const printBlogs = () => (
     < Togglable buttonLabel="show" >
-      <PrintBlogs blogs={blogs} addLikeFunc={addLikeFunc}></PrintBlogs>
+      <PrintBlogs blogs={blogs} addLikeFunc={addLikeFunc} deleteFunc={deleteFunc} loggedUser = {user}></PrintBlogs>
     </Togglable >
   )
 
