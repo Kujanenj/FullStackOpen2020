@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import PropTypes from 'prop-types'
 const Blog = ({ blog,addLikeFunc ,deleteFunc,loggedUser}) =>  {
   const blogStyle = {
     paddingTop: 10,
@@ -47,5 +48,7 @@ const Blog = ({ blog,addLikeFunc ,deleteFunc,loggedUser}) =>  {
   </div>
   </div>
 )
-  }
+}
+
+
 export default Blog
