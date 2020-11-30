@@ -1,15 +1,24 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 const Notification = () => {
+  console.log("WTF")
   const style = {
-    border: 'solid',
-    padding: 10,
-    borderWidth: 1
+   border: 'solid',
+   padding: 10,
+   borderWidth: 1
+ }
+ const notification = useSelector((state) => {
+  // Hides notification if the box is empty
+  if (state.notifications.length === 0) {
+    style.display = 'none'
   }
+  return state.notifications
+})
+console.log("RETURNING")
   return (
     <div style={style}>
-      render here notification...
-    </div>
+      {notification}    </div>
   )
 }
 

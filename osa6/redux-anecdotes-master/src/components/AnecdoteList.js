@@ -1,20 +1,29 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
+import {displayNotificaton, hideNotification} from '../reducers/notificationReducer'
 
     const Anecdotes =()=>{
         
         const dispatch = useDispatch()
-        const anecdotes = useSelector(state => state)
-        
+        const filter = useSelector(state => state.filter)
+       let anecdotes = useSelector(state=>state.anecdotes)
+       console.log("The filter is ->",filter)
+        if(filter!==""){
+          console.log("Filter is here")
+          anecdotes = anecdotes.filter((anecdote)=>{
+           return anecdote.content.includes(filter)
+         })
+         console.log(anecdotes)
+        }
+        console.log(anecdotes)
         const vote = (id) => {
-            console.log('vote', id)
+            
             return  {
                 type : "VOTE",
                 data: {id}
             }
         }
-        
+    
         return(
             <div>
   <h2>Anecdotes</h2>
@@ -27,7 +36,13 @@ import { useDispatch, useSelector } from 'react-redux'
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => dispatch(vote(anecdote.id))}>vote</button>
+            <button onClick={() => {dispatch(vote(anecdote.id))
+               dispatch(displayNotificaton(`You voted ${anecdote.content}`))
+               setTimeout(()=>{
+                 dispatch(hideNotification())
+                 
+               },5000)
+               }}>vote</button>
           </div>
         </div>
       )}
