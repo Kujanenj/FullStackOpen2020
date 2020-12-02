@@ -1,3 +1,4 @@
+import anecdoteService from '../services/anecdote'
 /*const anecdotesAtStart = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',
@@ -18,9 +19,13 @@ const asObject = (anecdote) => {
     }
 }
 export const createAnecdote = (content) => {
-    return {
-        type: 'NEW_ANECDOTE',
-        data : content
+
+    return async dispatch => {
+        const newAnecdote = await anecdoteService.createNew(content)
+        dispatch({
+            type: 'NEW_ANECDOTE',
+            data : newAnecdote
+        })
        // data: asObject(content)
     }
 }
@@ -28,6 +33,16 @@ export const initAnecdotes = (anecdotes)=>{
     return{
         type : 'INIT_ANECDOTES',
         data: anecdotes
+    }
+}
+export const voteAnecdote = (content)=>{
+    return async dispatch =>{
+        console.log("Update")
+        await anecdoteService.update({...content,votes: content.votes +1 })
+        dispatch({
+            type: "VOTE",
+            data: content
+        })
     }
 }
 const anecdoteReducer = (state = [], action) => {
