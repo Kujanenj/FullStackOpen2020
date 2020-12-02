@@ -10,7 +10,7 @@ const Anecdotes = () => {
   const dispatch = useDispatch()
   const filter = useSelector((state) => state.filter)
   let anecdotes = useSelector((state) => state.anecdotes)
-  console.log(anecdotes)
+ 
   if (filter !== '') {
     anecdotes = anecdotes.filter((anecdote) => {
       return anecdote.content.includes(filter)
@@ -38,10 +38,7 @@ const Anecdotes = () => {
               <button
                 onClick={() => {
                   dispatch(voteAnecdote(anecdote))
-                  dispatch(displayNotificaton(`You voted ${anecdote.content}`))
-                  setTimeout(() => {
-                    dispatch(hideNotification())
-                  }, 5000)
+                  dispatch(displayNotificaton(`You voted ${anecdote.content}`,1000))
                 }}
               >
                 vote

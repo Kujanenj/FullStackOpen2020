@@ -15,10 +15,7 @@ const NewAnecdote = (props) =>{
         const content = event.target.anecdote.value
         event.target.anecdote.value = ''
         dispatch(createAnecdote(content))
-        dispatch(displayNotificaton(`You added ${content}`))
-        setTimeout(()=>{
-          dispatch(hideNotification())
-        },5000)
+        dispatch(displayNotificaton(`You added ${content}`,1000))
     }   
 return(
       <form onSubmit = {addAnecdote}>
