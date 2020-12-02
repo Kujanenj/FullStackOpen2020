@@ -10,6 +10,7 @@ const Anecdotes = () => {
   const dispatch = useDispatch()
   const filter = useSelector((state) => state.filter)
   let anecdotes = useSelector((state) => state.anecdotes)
+  console.log(anecdotes)
   if (filter !== '') {
     anecdotes = anecdotes.filter((anecdote) => {
       return anecdote.content.includes(filter)
