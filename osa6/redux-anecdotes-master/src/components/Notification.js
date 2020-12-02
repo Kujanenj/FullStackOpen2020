@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 const Notification = () => {
-  console.log("WTF")
   const style = {
    border: 'solid',
    padding: 10,
@@ -15,7 +14,6 @@ const Notification = () => {
   }
   return state.notifications
 })
-console.log("RETURNING")
   return (
     <div style={style}>
       {notification}    </div>
