@@ -11,7 +11,6 @@ export const createAnecdote = (content) => {
 }
 export const initAnecdotes = () => {
   return async (dispatch) => {
-    console.log('init ')
     const anecdotes = await anecdoteService.getAll()
     dispatch({
       type: 'INIT_ANECDOTES',
@@ -43,7 +42,6 @@ const anecdoteReducer = (state = [], action) => {
     case 'NEW_ANECDOTE':
       return [...state, action.data]
     case 'INIT_ANECDOTES':
-      console.log('look', action.data)
       return action.data
     default:
       return state

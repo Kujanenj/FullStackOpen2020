@@ -5,7 +5,6 @@ import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { displayNotificaton } from '../reducers/notificationReducer'
 
 const Anecdotes = (props) => {
-  console.log(props)
   const dispatch = useDispatch()
   let anecdotes = props.anecdotes
   return (
