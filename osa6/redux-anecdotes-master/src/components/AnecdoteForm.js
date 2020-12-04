@@ -1,11 +1,8 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
-import anecdoteService from '../services/anecdote'
 import {
   displayNotificaton,
-  hideNotification,
 } from '../reducers/notificationReducer'
 
 const NewAnecdote = (props) => {

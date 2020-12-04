@@ -1,11 +1,9 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { connect } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { displayNotificaton } from '../reducers/notificationReducer'
 
 const Anecdotes = (props) => {
-  const dispatch = useDispatch()
   let anecdotes = props.anecdotes
   return (
     <div>
@@ -22,8 +20,9 @@ const Anecdotes = (props) => {
               <button
                 onClick={() => {
                   props.voteAnecdote(anecdote)
-                  dispatch(
-                    displayNotificaton(`You voted ${anecdote.content}`, 1000),
+                  props.displayNotificaton(
+                    `You voted ${anecdote.content}`,
+                    5000,
                   )
                 }}
               >

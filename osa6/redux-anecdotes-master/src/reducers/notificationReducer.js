@@ -1,3 +1,6 @@
+//This is gona style, dont do this actually. Global variables are bad
+let timeoutID =""
+
 const notificationReducer = (state = [], action) => {
   switch (action.type) {
     case 'DISPLAY':
@@ -14,12 +17,20 @@ export const hideNotification = () => {
   }
 }
 export const displayNotificaton = (message, timeout) => {
+
+  if(timeoutID){
+    console.log(timeoutID)
+    clearTimeout(timeoutID)
+  }
   return async (dispatch) => {
-    await dispatch({ type: 'DISPLAY', message })
-    setTimeout(() => {
+     timeoutID = setTimeout(() => {
         dispatch(hideNotification())
       }, timeout)
+    
+      await dispatch({ type: 'DISPLAY', message })
   }
+   
+  
 }
 
 export default notificationReducer
