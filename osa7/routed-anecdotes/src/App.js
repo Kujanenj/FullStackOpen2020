@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import CreateNew from './components/CreateNew'
 import Menu from './components/Menu'
 import Footer from './components/Footer'
-
+import Notification from './components/Notification'
 
 
 
@@ -30,30 +29,30 @@ const App = () => {
 
   const [notification, setNotification] = useState('')
 
-  const addNew = (anecdote) => {
+ const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
-    setAnecdotes(anecdotes.concat(anecdote))
+   setAnecdotes(anecdotes.concat(anecdote))
   }
 
-  const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === id)
+ const anecdoteById = (id) =>
+   anecdotes.find(a => a.id === id)
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
 
     const voted = {
-      ...anecdote,
-      votes: anecdote.votes + 1
-    }
+     ...anecdote,
+     votes: anecdote.votes + 1    }
 
-    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
+  setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
+
   
   return (
     <div>
     
  <Menu anecdotes = {anecdotes} addNew = {addNew} />
-    
+  <Notification></Notification>  
       <h1>Software anecdotes</h1>
    
       <Footer />

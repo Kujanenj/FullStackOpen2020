@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import {
+  displayNotificaton,
+} from '../reducers/notificationReducer'
+import {
+  useHistory} from 'react-router-dom'
 const CreateNew = (props) => {
+    const history = useHistory()
     const [content, setContent] = useState('')
     const [author, setAuthor] = useState('')
     const [info, setInfo] = useState('')
@@ -13,6 +20,10 @@ const CreateNew = (props) => {
         info,
         votes: 0
       })
+      console.log("sheet")
+        props.displayNotificaton(`You added ${content}`, 5000)
+       
+        history.push("/")
     }
   
     return (
@@ -31,10 +42,10 @@ const CreateNew = (props) => {
             url for more info
             <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
           </div>
-          <button>create</button>
+        <button>create</button>
         </form>
       </div>
     )
   
   }
-export default CreateNew
+export default connect(null, {displayNotificaton })(CreateNew)

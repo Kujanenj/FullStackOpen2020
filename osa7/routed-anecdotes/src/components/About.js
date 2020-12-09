@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React from 'react'
 const About = () => (
     <div>
       <h2>About anecdote app</h2>
