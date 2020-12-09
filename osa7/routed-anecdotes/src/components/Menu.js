@@ -5,6 +5,8 @@ import {
   } from "react-router-dom"
 import AnecdoteList from './AnecdoteList'
 import CreateNew from "./CreateNew"
+import Anecdote from "./Anecdote"
+import About from './About'
 
   const Menu = ({anecdotes,addNew}) => {
   
@@ -17,14 +19,19 @@ import CreateNew from "./CreateNew"
         <div>
           <Link style={padding} to="/">home</Link>
           <Link style={padding} to="/create">create</Link>
+          
         </div>
   
         <Switch>
           <Route path="/create">
           <CreateNew addNew={addNew} />
           </Route>
+          <Route path = "/anecdotes/:id">
+            <Anecdote anecdotes = {anecdotes}></Anecdote>
+          </Route>
           <Route path="/">
          <AnecdoteList anecdotes ={anecdotes}></AnecdoteList>
+         <About></About>
           </Route>
         </Switch>
 

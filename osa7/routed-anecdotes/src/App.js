@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import CreateNew from './components/CreateNew'
 import Menu from './components/Menu'
 import Footer from './components/Footer'
-import About from './components/About'
 
 
 
@@ -57,7 +56,6 @@ const App = () => {
     
       <h1>Software anecdotes</h1>
    
-   <About />
       <Footer />
     </div>
   )
