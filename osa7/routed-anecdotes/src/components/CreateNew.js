@@ -11,9 +11,9 @@ const CreateNew = (props) => {
    // const [content, setContent] = useState('')
    // const [author, setAuthor] = useState('')
    // const [info, setInfo] = useState('')
-  const content = useField('text') 
-  const author = useField('text') 
-  const info = useField('text') 
+  const {reset: resetContent, ...content} = useField('text') 
+  const {reset: resetAuthor, ...author} = useField('text') 
+  const {reset: resetInfo, ...info} = useField('text') 
   
     const handleSubmit = (e) => {
       console.log(props)
@@ -37,22 +37,22 @@ const CreateNew = (props) => {
         <form onSubmit={handleSubmit}>
           <div>
             content
-            <input name='content' value={content.value} onChange={content.onChange} />
+            <input {...content} />
           </div>
           <div>
             author
-            <input name='author' value={author.value} onChange={author.onChange} />
+            <input {...author} />
           </div>
           <div>
             url for more info
-            <input name='info' value={info.value} onChange={info.onChange} />
+            <input {...info} />
           </div>
         <button>create</button>
         </form>
         <button onClick={()=>{
-        content.reset()
-        author.reset()
-        info.reset()
+        resetContent()
+        resetAuthor()
+        resetInfo()
         }}>reset</button>
       </div>
     )
