@@ -50,9 +50,9 @@ const CreateNew = (props) => {
         <button>create</button>
         </form>
         <button onClick={()=>{
-          content.reset()
-          author.reset()
-          info.reset()
+        content.reset()
+        author.reset()
+        info.reset()
         }}>reset</button>
       </div>
     )
