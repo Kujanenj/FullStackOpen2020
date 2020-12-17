@@ -1,28 +1,30 @@
 import React, { useState } from 'react'
-
-const BlogsForm = ({
-  createNewBlog,
-  user
-}) => {
+import blogService from '../services/blogs'
+const BlogsForm = props => {
   const [blogTitle, setBlogTitle] = useState('')
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
-  const handleTitleChange = (event) => {
+  const createNewBlog = async blogObject => {
+    //blogFormRef.current.toggleVisibility()
+    const returnedBlog = await blogService.create(blogObject)
+    props.setBlogs(props.blogs.concat(returnedBlog))
+  }
+  const handleTitleChange = event => {
     setBlogTitle(event.target.value)
   }
-  const handleAuthorChange = (event) => {
+  const handleAuthorChange = event => {
     setBlogAuthor(event.target.value)
   }
-  const handleUrlChange = (event) => {
+  const handleUrlChange = event => {
     setBlogUrl(event.target.value)
   }
-  const addBlog = (event) => {
+  const addBlog = event => {
     event.preventDefault()
     createNewBlog({
       author: blogAuthor,
-      title : blogTitle,
-      url : blogUrl,
-      user : user
+      title: blogTitle,
+      url: blogUrl,
+      user: props.user
     })
   }
   return (
@@ -31,24 +33,13 @@ const BlogsForm = ({
       <form onSubmit={addBlog}>
         <div>
           title:
-          <input
-            value={blogTitle}
-            onChange={handleTitleChange}
-          />
+          <input value={blogTitle} onChange={handleTitleChange} />
           <div></div>
           Author:
-          <input
-            value={blogAuthor}
-            onChange={handleAuthorChange}
-          ></input>
-
+          <input value={blogAuthor} onChange={handleAuthorChange}></input>
           <div></div>
           Url:
-          <input
-            value={blogUrl}
-            onChange={handleUrlChange}
-          >
-          </input>
+          <input value={blogUrl} onChange={handleUrlChange}></input>
           <div>
             <button type="submit">Add</button>
           </div>

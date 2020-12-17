@@ -19,7 +19,6 @@ export const hideNotification = () => {
 export const displayNotificaton = (message, timeout) => {
 
   if(timeoutID){
-    console.log(timeoutID)
     clearTimeout(timeoutID)
   }
   return async (dispatch) => {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import loginService from './services/login'
 import blogService from './services/blogs'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
@@ -10,6 +9,7 @@ import PrintBlogs from './components/PrintBlogs'
 import './App.css'
 
 const App = () => {
+  console.log("RENDER")
   const dispatch = useDispatch()
   const blogFormRef = useRef()
   const logOut = () => {
@@ -19,33 +19,10 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
 
-  const addLikeFunc = async blogObject => {
-    blogObject.likes += 1
 
-    const response = await blogService.addLike(blogObject)
-
-    setBlogs(blogs.map(blog => (blog.id === response.id ? response : blog)))
-
-    setBlogs(
-      blogs.sort((first, second) => {
-        return first['likes'] > second['likes'] ? -1 : 1
-      })
-    )
-  }
-  const deleteFunc = async blogObject => {
-    await blogService.removeBlog(blogObject)
-
-    setBlogs(blogs.filter(blog => (blog.id !== blogObject.id ? true : false)))
-  }
-
-  const createNewBlog = async blogObject => {
-    //blogFormRef.current.toggleVisibility()
-    const returnedBlog = await blogService.create(blogObject)
-    setBlogs(blogs.concat(returnedBlog))
-  }
   const blogsForm = () => (
     <Togglable buttonLabel="add Blog" ref={blogFormRef}>
-      <BlogsForm user={user} createNewBlog={createNewBlog} />
+      <BlogsForm user={user} blogs={blogs} setBlogs={setBlogs} />
     </Togglable>
   )
   const loginForm = () => (
@@ -55,12 +32,7 @@ const App = () => {
   )
   const printBlogs = () => (
     <Togglable buttonLabel="show">
-      <PrintBlogs
-        blogs={blogs}
-        addLikeFunc={addLikeFunc}
-        deleteFunc={deleteFunc}
-        loggedUser={user}
-      ></PrintBlogs>
+      <PrintBlogs blogs={blogs} setBlogs={setBlogs} user={user}></PrintBlogs>
     </Togglable>
   )
 
@@ -70,6 +42,7 @@ const App = () => {
       const oldUser = JSON.parse(loggedUserJSON)
       setUser(oldUser)
       blogService.setToken(oldUser.token)
+    }
       blogService
         .getAll()
         .then(blogs =>
@@ -79,7 +52,6 @@ const App = () => {
             )
           )
         )
-    }
   }, [])
   return (
     <div>
