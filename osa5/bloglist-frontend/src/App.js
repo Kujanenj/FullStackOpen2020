@@ -1,51 +1,52 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch ,connect} from 'react-redux'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
 import BlogsForm from './components/BlogsForm'
 import LoginForm from './components/LoginForm'
 import BlogList from './components/BlogList'
+import {initialUser, logOut} from "./reducers/userReducer"
 import './App.css'
 import { initblogs } from './reducers/blogsReducer'
+import store from './store'
 
-const App = () => {
-  console.log('RENDER')
+const App = (props) => {
+  
   const dispatch = useDispatch()
-  console.log(initblogs)
   useEffect(() => {
     dispatch(initblogs())
   }, [dispatch])
-  console.log('????')
-  //const blogFormRef = useRef()
-  const logOut = () => {
-    window.localStorage.removeItem('loggedUser')
-    //setUser(null)
-  }
-  const [user, setUser] = useState(null)
+
   // const [blogs, setBlogs] = useState([])
-    const loginForm = () => (
-      <Togglable buttonLabel="login">
-        <LoginForm setUser={setUser} />
+  const loginForm = () => (
+    <Togglable buttonLabel="login">
+        <LoginForm/>
       </Togglable>
     )
-  return (
-    <div>
+    let user = props.user
+    console.log(user)
+    console.log(user === null,"null")
+    console.log(user === undefined,"undef")
+    return (
+      <div>
       <Notification></Notification>
 
       <div>
-        {user === null ? (
+        {user===null ? (
           loginForm()
-        ) : (
-          <div>
+          ) : (
+            <div>
             <p>{user.name} logged in</p>
-            <button onClick={logOut}> logOut</button>
+            <button onClick={() =>props.logOut()}> logOut</button>
             <BlogList></BlogList>
-            <BlogsForm user={user}></BlogsForm>
+            <BlogsForm></BlogsForm>
           </div>
         )}
       </div>
     </div>
   )
 }
-
-export default App
+const mapStateToProps = state => {
+  return { user: state.user }
+}
+export default connect(mapStateToProps,{logOut,initialUser})(App)

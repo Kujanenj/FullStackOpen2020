@@ -11,8 +11,11 @@ const blogStyle = {
   marginBottom: 5
 }
 const Blogs = props => {
+  const user = props.user
+  console.log("current user is -->",user)
   const [showFull, setShowFull] = useState(false)
   let blogs = props.blogs
+  console.log(blogs)
   return (
     <div>
       <h2>blogs</h2>
@@ -40,7 +43,8 @@ const Blogs = props => {
                  Vote
                 </button>
                 <br></br>
-                {blog.user.username === 'test' ? (
+                {blog.user.username === props.user.username ? (
+
                   
                   <button onClick={() => {
                     props.deleteBlog(blog)
@@ -62,9 +66,10 @@ const Blogs = props => {
   )
 }
 const mapStateToProps = state => {
-  return { blogs: state.blogs }
+  return { blogs: state.blogs,
+    user:state.user }
 }
-const mapDispatchToProps = { voteBlog, deleteBlog, displayNotificaton }
+const mapDispatchToProps = {voteBlog, deleteBlog, displayNotificaton }
 const connectedBlogs = connect(mapStateToProps, mapDispatchToProps)(Blogs)
 export default connectedBlogs
 

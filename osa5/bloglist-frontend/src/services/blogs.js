@@ -13,7 +13,16 @@ const getAll = () => {
 const createBlog = async newObject => {
   const config = { headers: { Authorization: token }, }
   const response = await axios.post(baseUrl, newObject, config)
-  return response.data
+  const user = JSON.parse(window.localStorage.getItem('loggedUser'))
+  const test = {...response.data, user : {
+    id:response.data.user,
+    username:  user.username,
+    name : user.name
+  }}
+  console.log(window.localStorage.getItem('loggedUser'))
+  console.log("response here --->",test) 
+
+  return test
 
 
 }

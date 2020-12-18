@@ -11,6 +11,7 @@ const BlogsForm = props => {
     event.target.title.value = ''
     event.target.url.value = ''
     event.target.author.value = ''
+
     props.createblog({
       title,
       author,
@@ -40,4 +41,7 @@ const BlogsForm = props => {
     </div>
   )
 }
-export default connect(null, { createblog, displayNotificaton })(BlogsForm)
+const mapStateToProps = state => {
+  return { user: state.user }
+}
+export default connect(mapStateToProps, { createblog, displayNotificaton })(BlogsForm)
