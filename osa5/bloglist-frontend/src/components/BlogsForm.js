@@ -1,45 +1,37 @@
-import React, { useState } from 'react'
-import blogService from '../services/blogs'
+import React from 'react'
+import { connect } from 'react-redux'
+import { createblog } from '../reducers/blogsReducer'
+import { displayNotificaton } from '../reducers/notificationReducer'
 const BlogsForm = props => {
-  const [blogTitle, setBlogTitle] = useState('')
-  const [blogAuthor, setBlogAuthor] = useState('')
-  const [blogUrl, setBlogUrl] = useState('')
-  const createNewBlog = async blogObject => {
-    //blogFormRef.current.toggleVisibility()
-    const returnedBlog = await blogService.create(blogObject)
-    props.setBlogs(props.blogs.concat(returnedBlog))
-  }
-  const handleTitleChange = event => {
-    setBlogTitle(event.target.value)
-  }
-  const handleAuthorChange = event => {
-    setBlogAuthor(event.target.value)
-  }
-  const handleUrlChange = event => {
-    setBlogUrl(event.target.value)
-  }
-  const addBlog = event => {
+  const handleSubmit = event => {
     event.preventDefault()
-    createNewBlog({
-      author: blogAuthor,
-      title: blogTitle,
-      url: blogUrl,
+    const title = event.target.title.value
+    const url = event.target.url.value
+    const author = event.target.author.value
+    event.target.title.value = ''
+    event.target.url.value = ''
+    event.target.author.value = ''
+    props.createblog({
+      title,
+      author,
+      url,
       user: props.user
     })
+    props.displayNotificaton(`You created`, 5000)
   }
   return (
     <div>
       <h2>Create new blogy</h2>
-      <form onSubmit={addBlog}>
+      <form onSubmit={handleSubmit}>
         <div>
           title:
-          <input value={blogTitle} onChange={handleTitleChange} />
+          <input name="title" />
           <div></div>
           Author:
-          <input value={blogAuthor} onChange={handleAuthorChange}></input>
+          <input name="author"></input>
           <div></div>
           Url:
-          <input value={blogUrl} onChange={handleUrlChange}></input>
+          <input name="url"></input>
           <div>
             <button type="submit">Add</button>
           </div>
@@ -48,4 +40,4 @@ const BlogsForm = props => {
     </div>
   )
 }
-export default BlogsForm
+export default connect(null, { createblog, displayNotificaton })(BlogsForm)
