@@ -20,7 +20,7 @@ test('renders content', () => {
   const component = render(
     <Blog blog = {blog} loggedUser={testUser}></Blog>
   )
-component.debug()
+  component.debug()
   expect(component.container).toHaveTextContent(
     'author'
   )
@@ -28,10 +28,10 @@ component.debug()
     'blogTitle'
   )
   expect(component.container).toHaveTextContent(
-      "likes"
+    'likes'
   )
   const div = component.container.querySelector('.blog')
   expect(div).toHaveTextContent(
-    "blogTitle"
+    'blogTitle'
   )
 })

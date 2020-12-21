@@ -1,6 +1,5 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import Blog from './Blog'
 import { displayNotificaton } from '../reducers/notificationReducer'
 import { voteBlog, deleteBlog } from '../reducers/blogsReducer'
 const blogStyle = {
@@ -12,10 +11,8 @@ const blogStyle = {
 }
 const Blogs = props => {
   const user = props.user
-  console.log("current user is -->",user)
   const [showFull, setShowFull] = useState(false)
   let blogs = props.blogs
-  console.log(blogs)
   return (
     <div>
       <h2>blogs</h2>
@@ -37,7 +34,7 @@ const Blogs = props => {
                 <button
                   onClick={() => {
                     props.voteBlog(blog)
-                    props.displayNotificaton(`You voted`, 5000)
+                    props.displayNotificaton('You voted', 5000)
                   }}
                 >
                  Vote
@@ -45,10 +42,10 @@ const Blogs = props => {
                 <br></br>
                 {blog.user.username === props.user.username ? (
 
-                  
+
                   <button onClick={() => {
                     props.deleteBlog(blog)
-                     props.displayNotificaton(`You deleted`, 5000)}}>
+                    props.displayNotificaton('You deleted', 5000)}}>
                     Delete me
                   </button>
                 ) : (
@@ -56,9 +53,9 @@ const Blogs = props => {
                 )}
                 <br>
                 </br>
-                  <button onClick={() => setShowFull(!showFull)}> Show less </button>
+                <button onClick={() => setShowFull(!showFull)}> Show less </button>
               </div>
-              
+
             )}
           </div>
         ))}
@@ -69,7 +66,7 @@ const mapStateToProps = state => {
   return { blogs: state.blogs,
     user:state.user }
 }
-const mapDispatchToProps = {voteBlog, deleteBlog, displayNotificaton }
+const mapDispatchToProps = { voteBlog, deleteBlog, displayNotificaton }
 const connectedBlogs = connect(mapStateToProps, mapDispatchToProps)(Blogs)
 export default connectedBlogs
 

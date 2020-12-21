@@ -7,7 +7,7 @@ const Blog = (props) => {
     blogObject.likes += 1
 
     const response = await blogService.addLike(blogObject)
-    
+
     props.setBlogs(blogs.map(blog => (blog.id === response.id ? blogObject : blog)))
 
     props.setBlogs(
@@ -35,11 +35,11 @@ const Blog = (props) => {
 
   let flag = false
 
-    if (blog.user.username === props.user.username) {
-      flag = true
-    } else {
-      flag = false
-    }
+  if (blog.user.username === props.user.username) {
+    flag = true
+  } else {
+    flag = false
+  }
   const showDeleteWhenTrue = { display: flag ? '' : 'none' }
   return (
     <div style={blogStyle} className="blog">

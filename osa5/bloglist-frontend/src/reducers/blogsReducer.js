@@ -29,36 +29,36 @@ export const voteBlog = blog => {
     })
   }
 }
-export const deleteBlog = blog =>{
-    return async dispatch =>{
-        await blogService.removeBlog(blog)
-        dispatch({
-            type: 'DELETE_BLOG',
-            data : blog
-        })
-    }
+export const deleteBlog = blog => {
+  return async dispatch => {
+    await blogService.removeBlog(blog)
+    dispatch({
+      type: 'DELETE_BLOG',
+      data : blog
+    })
+  }
 }
 const blogReducer = (state = [], action) => {
-    let id;
+  let id
   switch (action.type) {
-    case 'VOTE':
-       id = action.data.id
-      const blogToChange = state.find(n => n.id === id)
-      const changedblog = {
-        ...blogToChange,
-        likes: blogToChange.likes + 1
-      }
-      return state.map(blog => (blog.id !== id ? blog : changedblog))
-    case 'NEW_BLOG':
-      return [...state, action.data]
-    case 'DELETE_BLOG':
-       id = action.data.id
-      return state.filter(blog => (blog.id !== id ? true : false))
+  case 'VOTE':
+    id = action.data.id
+    const blogToChange = state.find(n => n.id === id)
+    const changedblog = {
+      ...blogToChange,
+      likes: blogToChange.likes + 1
+    }
+    return state.map(blog => (blog.id !== id ? blog : changedblog))
+  case 'NEW_BLOG':
+    return [...state, action.data]
+  case 'DELETE_BLOG':
+    id = action.data.id
+    return state.filter(blog => (blog.id !== id ? true : false))
 
-    case 'INIT_BLOGS':
-      return action.data
-    default:
-      return state
+  case 'INIT_BLOGS':
+    return action.data
+  default:
+    return state
   }
 }
 

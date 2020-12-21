@@ -18,7 +18,7 @@ const BlogsForm = props => {
       url,
       user: props.user
     })
-    props.displayNotificaton(`You created`, 5000)
+    props.displayNotificaton('You created', 5000)
   }
   return (
     <div>

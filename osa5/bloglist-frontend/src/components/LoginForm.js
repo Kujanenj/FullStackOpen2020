@@ -1,9 +1,9 @@
-import React, {useEffect}from 'react'
-import loginService from '../services/login'
+import React, { useEffect }from 'react'
 import blogService from '../services/blogs'
+import userService from "../services/user"
 import { connect, useDispatch } from 'react-redux'
 import { displayNotificaton } from '../reducers/notificationReducer'
-import {logIn} from '../reducers/userReducer'
+import { logIn } from '../reducers/userReducer'
 const LoginForm = props => {
   const dispatch = useDispatch()
   //Check if already logged in
@@ -12,10 +12,11 @@ const LoginForm = props => {
     if (loggedUserJSON) {
       const oldUser = JSON.parse(loggedUserJSON)
       dispatch({
-        type: "SET",
+        type: 'SET',
         data: oldUser
       })
       blogService.setToken(oldUser.token)
+      userService.setToken(oldUser.token)
     }
   }, [])
   const handleSubmit = async event => {
@@ -29,12 +30,12 @@ const LoginForm = props => {
         username,
         password
       }
-        await props.logIn(user)
+      await props.logIn(user)
       props.displayNotificaton(`You logged in as ${username}`, 1000)
 
     } catch (err) {
       console.log(err)
-      props.displayNotificaton(`You failed to login`, 1000)
+      props.displayNotificaton('You failed to login', 1000)
     }
   }
   return (
