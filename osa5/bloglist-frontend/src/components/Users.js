@@ -2,6 +2,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch, connect } from 'react-redux'
 import { initUsers } from '../reducers/usersReducer'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+  } from "react-router-dom"
+
+
 const Users = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
@@ -13,20 +21,27 @@ const Users = (props) => {
         return null
     }
     return (
+       
 
         <div>
             <h1>
                 Users
        </h1>
+       <ul>
+
             {users.map(user => (
-                <div key={user.id}>
+                <li key={user.id}>
+                    <Link to={`/users/${user.id}`}>
                     {user.name}
+                    </Link>
                     Blogs --
                     {user.blogs.length}
-                </div>
+                </li>
             ))}
+            </ul>
 
         </div>
+            
     )
 }
 const mapStateToProps = state => {

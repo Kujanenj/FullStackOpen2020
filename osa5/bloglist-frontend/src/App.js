@@ -4,8 +4,7 @@ import Togglable from './components/Togglable'
 import Notification from './components/Notification'
 import BlogsForm from './components/BlogsForm'
 import LoginForm from './components/LoginForm'
-import BlogList from './components/BlogList'
-import Users from './components/Users'
+import Menu from "./components/Menu"
 import { initialUser, logOut } from './reducers/userReducer'
 import './App.css'
 import { initblogs } from './reducers/blogsReducer'
@@ -35,8 +34,7 @@ const App = (props) => {
             <div>
               <p>{user.name} logged in</p>
               <button onClick={() => props.logOut()}> logOut</button>
-              <Users></Users>
-              <BlogList></BlogList>
+              <Menu></Menu>
               <BlogsForm></BlogsForm>
             </div>
           )}
