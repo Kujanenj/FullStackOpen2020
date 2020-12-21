@@ -1,74 +1,57 @@
-import React, { useState } from 'react'
-import blogService from '../services/blogs'
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import {connect} from "react-redux"
+import {voteBlog,deleteBlog} from "../reducers/blogsReducer"
+import {displayNotificaton} from "../reducers/notificationReducer"
 const Blog = (props) => {
-  const blog = props.blog
-  const blogs = props.blogs
-  const addLikeFunc = async blogObject => {
-    blogObject.likes += 1
+  const id = useParams().id
 
-    const response = await blogService.addLike(blogObject)
-
-    props.setBlogs(blogs.map(blog => (blog.id === response.id ? blogObject : blog)))
-
-    props.setBlogs(
-      blogs.sort((first, second) => {
-        return first['likes'] > second['likes'] ? -1 : 1
-      })
-    )
-  }
-  const deleteFunc = async blogObject => {
-    await blogService.removeBlog(blogObject)
-
-    props.setBlogs(blogs.filter(blog => (blog.id !== blogObject.id ? true : false)))
+  const blog = props.blogs.find(blog => blog.id === id)
+  if (!blog) {
+    console.log("no blog")
+    return null
   }
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-  const [showFull, setShowFull] = useState(true)
-  const hideWhenVisible = { display: showFull ? 'none' : '' }
-  const showWhenVisible = { display: showFull ? '' : 'none' }
-
-  let flag = false
-
-  if (blog.user.username === props.user.username) {
-    flag = true
-  } else {
-    flag = false
-  }
-  const showDeleteWhenTrue = { display: flag ? '' : 'none' }
   return (
-    <div style={blogStyle} className="blog">
-      <div style={showWhenVisible}>
-        Title : {blog.title}
+    <div>
+      <h1>
+        {blog.title} {blog.author}
+      </h1>
+      <br>
+      </br>
+      <a href={blog.url}>{blog.url}</a>
+      <br></br>
+                likes : {blog.likes}
+      <button
+        onClick={() => {
+          props.voteBlog(blog)
+          props.displayNotificaton('You voted', 5000)
+        }}
+      >
+        Vote
+                </button>
+
         <br></br>
-        author: {blog.author}
-        <br></br>
-        <button onClick={() => setShowFull(false)}> bam </button>
-        <br></br>
-      </div>
-      <div style={hideWhenVisible}>
-        Title : {blog.title}
-        <br></br>
-        author: {blog.author}
-        <br></br>
-        likes : {blog.likes}
-        <button onClick={() => addLikeFunc(blog)}>Liketä mua</button>
-        <br></br>
-        Urli: {blog.url}
-        <div style={showDeleteWhenTrue}>
-          DeleteButton here
-          <button onClick={() => deleteFunc(blog)}>Delete me</button>
-        </div>
-        <br></br>
-        <button onClick={() => setShowFull(true)}> bam </button>
-      </div>
+        {`Added by ${blog.user.username}`}
+      {blog.user.username === props.user.username ? (
+
+
+        <button onClick={() => {
+          props.deleteBlog(blog)
+          props.displayNotificaton('You deleted', 5000)
+        }}>
+          Delete me
+        </button>
+      ) : (
+          <div> </div>
+        )}
     </div>
   )
 }
-
-export default Blog
+const mapStateToProps = state => {
+  return { blogs: state.blogs,
+    user:state.user }
+}
+const mapDispatchToProps = { voteBlog, deleteBlog, displayNotificaton }
+const connectedBlog = connect(mapStateToProps, mapDispatchToProps)(Blog)
+export default connectedBlog

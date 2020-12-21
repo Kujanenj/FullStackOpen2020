@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useDispatch, connect } from 'react-redux'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
-import BlogsForm from './components/BlogsForm'
 import LoginForm from './components/LoginForm'
 import Menu from "./components/Menu"
 import { initialUser, logOut } from './reducers/userReducer'
@@ -16,12 +15,6 @@ const App = (props) => {
     dispatch(initblogs())
   }, [dispatch])
 
-  // const [blogs, setBlogs] = useState([])
-  const loginForm = () => (
-    <Togglable buttonLabel="login">
-      <LoginForm />
-    </Togglable>
-  )
   let user = props.user
   return (
     <div>
@@ -29,13 +22,14 @@ const App = (props) => {
 
       <div>
         {user === null ? (
-          loginForm()
+          <Togglable buttonLabel="login">
+            <LoginForm />
+          </Togglable>
         ) : (
             <div>
               <p>{user.name} logged in</p>
               <button onClick={() => props.logOut()}> logOut</button>
               <Menu></Menu>
-              <BlogsForm></BlogsForm>
             </div>
           )}
       </div>

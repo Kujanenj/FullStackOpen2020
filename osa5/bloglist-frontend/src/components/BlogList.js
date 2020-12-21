@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { displayNotificaton } from '../reducers/notificationReducer'
-import { voteBlog, deleteBlog } from '../reducers/blogsReducer'
+import {Link} from "react-router-dom"
 const blogStyle = {
   paddingTop: 10,
   paddingLeft: 2,
@@ -10,8 +9,6 @@ const blogStyle = {
   marginBottom: 5
 }
 const Blogs = props => {
-  const user = props.user
-  const [showFull, setShowFull] = useState(false)
   let blogs = props.blogs
   return (
     <div>
@@ -22,52 +19,23 @@ const Blogs = props => {
         })
         .map(blog => (
           <div key={blog.id} style={blogStyle} className="blog">
-            <div>Title: {blog.title}</div>
-            <br></br>
-            author: {blog.author}
-            {showFull === false ? (
-              <button onClick={() => setShowFull(!showFull)}> Show more </button>
-            ) : (
-              <div>
-                <br></br>
-                likes : {blog.likes}
-                <button
-                  onClick={() => {
-                    props.voteBlog(blog)
-                    props.displayNotificaton('You voted', 5000)
-                  }}
-                >
-                 Vote
-                </button>
-                <br></br>
-                {blog.user.username === props.user.username ? (
-
-
-                  <button onClick={() => {
-                    props.deleteBlog(blog)
-                    props.displayNotificaton('You deleted', 5000)}}>
-                    Delete me
-                  </button>
-                ) : (
-                  <div> </div>
-                )}
-                <br>
-                </br>
-                <button onClick={() => setShowFull(!showFull)}> Show less </button>
-              </div>
-
-            )}
+            <Link to ={`/blogs/${blog.id}`}>
+              {blog.title}
+            </Link>
           </div>
-        ))}
+        ))
+      }
     </div>
   )
 }
+
+
 const mapStateToProps = state => {
-  return { blogs: state.blogs,
-    user:state.user }
+  return {
+    blogs: state.blogs,
+  }
 }
-const mapDispatchToProps = { voteBlog, deleteBlog, displayNotificaton }
-const connectedBlogs = connect(mapStateToProps, mapDispatchToProps)(Blogs)
+const connectedBlogs = connect(mapStateToProps, null)(Blogs)
 export default connectedBlogs
 
 //export default Printblogs

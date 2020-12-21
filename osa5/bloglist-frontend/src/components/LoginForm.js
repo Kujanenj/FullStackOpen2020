@@ -18,7 +18,7 @@ const LoginForm = props => {
       blogService.setToken(oldUser.token)
       userService.setToken(oldUser.token)
     }
-  }, [])
+  }, [dispatch])
   const handleSubmit = async event => {
     event.preventDefault()
     const username = event.target.username.value

@@ -7,8 +7,11 @@ import {
     Link,
 } from "react-router-dom";
 import BlogList from "./BlogList"
+import Blog from "./Blog"
 import Users from "./Users"
 import User from "./User"
+import Togglable from "./Togglable";
+import BlogForm from "./BlogsForm"
 const Menu = (props) => {
     const padding = {
         padding: 5,
@@ -26,20 +29,22 @@ const Menu = (props) => {
             </div>
 
             <Switch>
+                <Route path="/blogs/:id">
+                    <Blog></Blog>
+                </Route>
                 <Route path="/blogs">
                     <BlogList></BlogList>
+                    <Togglable buttonLabel = "Create New">
+                    <BlogForm></BlogForm>
+                    </Togglable>
                 </Route>
                 <Route path="/users/:id">
                     <User users={props.users} blogs={props.blogs}></User>
                 </Route>
-
                 <Route path="/users">
-                    ALL USERS
                     <Users></Users>
                 </Route>
-
                 <Route path="/">
-                    no match
                 </Route>
             </Switch>
         </Router>

@@ -3,10 +3,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, connect } from 'react-redux'
 import { initUsers } from '../reducers/usersReducer'
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
+    Link
   } from "react-router-dom"
 
 
@@ -14,7 +11,7 @@ const Users = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(initUsers())
-    }, [props.blogs])
+    }, [props.blogs,dispatch])
     const users = props.users
     console.log("users iin users", users)
     if (!users) {
