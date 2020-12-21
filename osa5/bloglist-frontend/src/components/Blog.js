@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import {connect} from "react-redux"
 import {voteBlog,deleteBlog} from "../reducers/blogsReducer"
 import {displayNotificaton} from "../reducers/notificationReducer"
+import Comments from "./Comments"
 const Blog = (props) => {
   const id = useParams().id
 
@@ -45,6 +46,8 @@ const Blog = (props) => {
       ) : (
           <div> </div>
         )}
+      <Comments blog={blog}></Comments>
+
     </div>
   )
 }

@@ -20,6 +20,17 @@ export const initblogs = () => {
     })
   }
 }
+export const addComment =(blog,comment) =>{
+  console.log("looki here_--->",blog,comment)  
+  return async dispatch =>{
+
+    let updatedBlog = await blogService.addComment(blog,comment)
+    dispatch({
+      type: "ADD_COMMENT",
+      data: updatedBlog
+    })
+  }
+}
 export const voteBlog = blog => {
   return async dispatch => {
     await blogService.update({ ...blog, likes: blog.likes + 1 })
@@ -54,7 +65,8 @@ const blogReducer = (state = [], action) => {
   case 'DELETE_BLOG':
     id = action.data.id
     return state.filter(blog => (blog.id !== id ? true : false))
-
+    case 'ADD_COMMENT':
+      return state.map(blog => (blog.id !== action.data.id ? blog : action.data))
   case 'INIT_BLOGS':
     return action.data
   default:

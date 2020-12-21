@@ -12,6 +12,7 @@ import Users from "./Users"
 import User from "./User"
 import Togglable from "./Togglable";
 import BlogForm from "./BlogsForm"
+import Comments from "./Comments"
 const Menu = (props) => {
     const padding = {
         padding: 5,
