@@ -12,7 +12,7 @@ import Users from "./Users"
 import User from "./User"
 import Togglable from "./Togglable";
 import BlogForm from "./BlogsForm"
-import Comments from "./Comments"
+import {Navbar,Nav} from "react-bootstrap"
 const Menu = (props) => {
     const padding = {
         padding: 5,
@@ -21,12 +21,20 @@ const Menu = (props) => {
     return (
         <Router>
             <div>
-                <Link style={padding} to="/users">
-                    Users
-        </Link>
-                <Link style={padding} to="/blogs">
-                    Blogs
-        </Link>
+                <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="mr-auto">
+                            <Nav.Link href="#" as="span">
+                                <Link style={padding} to="/users">users</Link>
+                            </Nav.Link>
+                            <Nav.Link href="#" as="span">
+                                <Link style={padding} to="/blogs">blogs</Link>
+                            </Nav.Link>
+
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
             </div>
 
             <Switch>
@@ -35,8 +43,8 @@ const Menu = (props) => {
                 </Route>
                 <Route path="/blogs">
                     <BlogList></BlogList>
-                    <Togglable buttonLabel = "Create New">
-                    <BlogForm></BlogForm>
+                    <Togglable buttonLabel="Create New">
+                        <BlogForm></BlogForm>
                     </Togglable>
                 </Route>
                 <Route path="/users/:id">
