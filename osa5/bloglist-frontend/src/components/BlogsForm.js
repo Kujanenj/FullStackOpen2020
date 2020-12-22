@@ -22,7 +22,7 @@ const BlogsForm = props => {
   }
   return (
     <div>
-      <h2>Create new blogy</h2>
+      <h2>Create new blog</h2>
       <form onSubmit={handleSubmit}>
         <div>
           title:

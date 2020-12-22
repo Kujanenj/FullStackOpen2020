@@ -4,6 +4,7 @@ import userService from "../services/user"
 import { connect, useDispatch } from 'react-redux'
 import { displayNotificaton } from '../reducers/notificationReducer'
 import { logIn } from '../reducers/userReducer'
+import { Table, Form, Button } from 'react-bootstrap'
 const LoginForm = props => {
   const dispatch = useDispatch()
   //Check if already logged in
@@ -42,17 +43,18 @@ const LoginForm = props => {
     <div>
       <h2>Login</h2>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          username
-          <input name="username" />
-        </div>
-        <div>
-          password
-          <input name="password" />
-        </div>
-        <button type="submit">login</button>
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+
+        <Form.Label> Username:</Form.Label>  
+        <Form.Control type="text" name ="username">
+
+        </Form.Control>
+        <Form.Label>Password: </Form.Label>
+        <Form.Control name="password"></Form.Control>
+        <Button variant ="primary" type="submit">Login</Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }

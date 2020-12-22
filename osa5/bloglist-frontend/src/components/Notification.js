@@ -1,22 +1,19 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-
+import {Alert} from "react-bootstrap"
 const Notification = () => {
-  const style = {
-    border: 'solid',
-    padding: 10,
-    borderWidth: 1
-  }
+
   const notification = useSelector((state) => {
-  // Hides notification if the box is empty
-    if (state.notifications.length === 0) {
-      style.display = 'none'
-    }
+   
     return state.notifications
   })
   return (
-    <div style={style}>
-      {notification}    </div>
+    <div className="container">
+      <Alert variant="success">
+
+        {notification}
+      </Alert>
+    </div>
   )
 }
 

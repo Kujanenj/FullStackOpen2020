@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {Link} from "react-router-dom"
+import { Table } from 'react-bootstrap'
 const blogStyle = {
   paddingTop: 10,
   paddingLeft: 2,
@@ -13,18 +14,23 @@ const Blogs = props => {
   return (
     <div>
       <h2>blogs</h2>
+      <Table striped>
+    <tbody>
+
       {blogs
         .sort(function (a, b) {
           return b.likes - a.likes
         })
         .map(blog => (
-          <div key={blog.id} style={blogStyle} className="blog">
+          <tr key={blog.id} style={blogStyle} className="blog">
             <Link to ={`/blogs/${blog.id}`}>
               {blog.title}
             </Link>
-          </div>
+          </tr>
         ))
       }
+      </tbody>
+      </Table>
     </div>
   )
 }
