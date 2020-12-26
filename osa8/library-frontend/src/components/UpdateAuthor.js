@@ -5,6 +5,8 @@ const UpdateAuthor = (props) => {
     const [name, setName] = useState('')
     const [born, setBorn] = useState('')
     let authors = props.authors
+    console.log(name,born)
+    console.log("Here be authors",authors)
     const [updateAuthor, result] = useMutation(UPDATE_AUTHOR,{
     refetchQueries: [{query:ALL_AUTHORS}]
     })
@@ -17,6 +19,8 @@ const UpdateAuthor = (props) => {
   
     const submit = async (event) => {
         event.preventDefault()
+        console.log(event)
+        console.log(name,born)
         try {
             updateAuthor({
                 variables: { name, setBornTo: parseInt(born) }
