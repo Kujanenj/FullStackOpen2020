@@ -29,7 +29,7 @@ const Menu = (props) => {
                                 <Link style={padding} to="/users">users</Link>
                             </Nav.Link>
                             <Nav.Link href="#" as="span">
-                                <Link style={padding} to="/blogs">blogs</Link>
+                                <Link style={padding} to="/blogs" id = "blogs_link">blogs</Link>
                             </Nav.Link>
 
                         </Nav>
@@ -43,7 +43,7 @@ const Menu = (props) => {
                 </Route>
                 <Route path="/blogs">
                     <BlogList></BlogList>
-                    <Togglable buttonLabel="Create New">
+                    <Togglable buttonLabel="create" id="create">
                         <BlogForm></BlogForm>
                     </Togglable>
                 </Route>

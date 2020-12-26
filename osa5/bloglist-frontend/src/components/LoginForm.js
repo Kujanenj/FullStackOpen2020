@@ -47,12 +47,12 @@ const LoginForm = props => {
         <Form.Group>
 
         <Form.Label> Username:</Form.Label>  
-        <Form.Control type="text" name ="username">
+        <Form.Control type="text" id = "username" name ="username">
 
         </Form.Control>
         <Form.Label>Password: </Form.Label>
-        <Form.Control name="password"></Form.Control>
-        <Button variant ="primary" type="submit">Login</Button>
+        <Form.Control id = "password" name="password"></Form.Control>
+        <Button variant ="primary" id = "login-button" type="submit">Login</Button>
         </Form.Group>
       </Form>
     </div>

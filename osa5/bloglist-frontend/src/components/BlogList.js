@@ -23,9 +23,11 @@ const Blogs = props => {
         })
         .map(blog => (
           <tr key={blog.id} style={blogStyle} className="blog">
-            <Link to ={`/blogs/${blog.id}`}>
+            <td>
+            <Link to ={`/blogs/${blog.id}`} id={blog.title}>
               {blog.title}
             </Link>
+            </td>
           </tr>
         ))
       }

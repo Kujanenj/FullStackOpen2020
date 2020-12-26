@@ -17,7 +17,7 @@ const App = (props) => {
 
   let user = props.user
   return (
-    <div class = "container">
+    <div className = "container">
       <Notification></Notification>
 
       <div>

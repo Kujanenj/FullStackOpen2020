@@ -1,8 +1,8 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import {connect} from "react-redux"
-import {voteBlog,deleteBlog} from "../reducers/blogsReducer"
-import {displayNotificaton} from "../reducers/notificationReducer"
+import { connect } from "react-redux"
+import { voteBlog, deleteBlog } from "../reducers/blogsReducer"
+import { displayNotificaton } from "../reducers/notificationReducer"
 import Comments from "./Comments"
 const Blog = (props) => {
   const id = useParams().id
@@ -23,7 +23,7 @@ const Blog = (props) => {
       <a href={blog.url}>{blog.url}</a>
       <br></br>
                 likes : {blog.likes}
-      <button
+      <button id="vote_button"
         onClick={() => {
           props.voteBlog(blog)
           props.displayNotificaton('You voted', 5000)
@@ -32,15 +32,16 @@ const Blog = (props) => {
         Vote
                 </button>
 
-        <br></br>
-        {`Added by ${blog.user.username}`}
+      <br></br>
+      {`Added by ${blog.user.username}`}
       {blog.user.username === props.user.username ? (
 
 
-        <button onClick={() => {
-          props.deleteBlog(blog)
-          props.displayNotificaton('You deleted', 5000)
-        }}>
+        <button id="delete_button"
+          onClick={() => {
+            props.deleteBlog(blog)
+            props.displayNotificaton('You deleted', 5000)
+          }}>
           Delete me
         </button>
       ) : (
@@ -52,8 +53,10 @@ const Blog = (props) => {
   )
 }
 const mapStateToProps = state => {
-  return { blogs: state.blogs,
-    user:state.user }
+  return {
+    blogs: state.blogs,
+    user: state.user
+  }
 }
 const mapDispatchToProps = { voteBlog, deleteBlog, displayNotificaton }
 const connectedBlog = connect(mapStateToProps, mapDispatchToProps)(Blog)
