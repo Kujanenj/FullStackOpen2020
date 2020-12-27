@@ -7,6 +7,7 @@ import UpdateAuthor from './UpdateAuthor'
 const Authors = (props) => {
   const result = useQuery(ALL_AUTHORS)
   const [authors, setAuthors] = useState(null)
+  console.log(authors)
   useEffect(() => {
     if (result.data) {
       setAuthors(result.data.allAuthors)
