@@ -1,10 +1,11 @@
 
 import React, { useState,useEffect } from 'react'
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient,useSubscription } from '@apollo/client';
 import Authors from './components/Authors'
 import Books from './components/Books'
 import LoginForm from './components/LoginForm'
 import NewBook from './components/NewBook'
+import { BOOK_ADDED } from './queries';
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
@@ -21,6 +22,11 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }
+  useSubscription(BOOK_ADDED,{
+    onSubscriptionData : ({subscriptionData})=>{
+      window.alert("Book added!")
+    }
+  })
   //Aika gona ratkasu imo. Vois korjailla joskus
   if (!token) {
     return (
