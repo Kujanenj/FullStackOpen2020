@@ -23,6 +23,10 @@ const parseArguments = (args: Array<string>): Calculator => {
       target: Number(args[2]),
     };
   }
+  return {
+    list: [],
+    target:0
+  }
 };
 
 const calculateAverage = (list: Array<number>, target: number): result => {
