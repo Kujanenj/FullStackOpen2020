@@ -11,7 +11,8 @@ interface result {
   target: number;
   average: number;
 }
-const parseArguments = (args: Array<string>): Calculator => {
+export const parseArguments = (args: Array<string>): Calculator => {
+  console.log(args)
   if (args.length < 4) throw new Error("Not enough arguments");
   for (let i = 2; i < args.length; i++) {
     if (isNaN(Number(args[i]))) {
@@ -29,7 +30,7 @@ const parseArguments = (args: Array<string>): Calculator => {
   };
 };
 
-const calculateAverage = (list: Array<number>, target: number): result => {
+export const calculateAverage = (list: Array<number>, target: number): result => {
   const trainingDays: number = list.filter((value) => value > 0).length;
   const periodLength: number = list.length;
   let sum = 0;
@@ -62,9 +63,10 @@ const calculateAverage = (list: Array<number>, target: number): result => {
     average,
   };
 };
-try {
+/*try {
   const { list, target } = parseArguments(process.argv);
   console.log(calculateAverage(list, target));
 } catch (e) {
   console.log("Error, something bad happened, message: ", e);
 }
+*/
