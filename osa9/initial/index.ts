@@ -3,7 +3,7 @@ import { calculateBMI } from "./bmiCalculator";
 const app = express();
 app.get("/bmi", (req, res) => {
   try {
-    let bmi: string = calculateBMI(
+    const bmi: string = calculateBMI(
       Number(req.query.height),
       Number(req.query.weight)
     );
@@ -12,7 +12,9 @@ app.get("/bmi", (req, res) => {
       height: req.query.height,
       bmi,
     });
-  } catch (e) {}
+  } catch (e) {
+    res.status(400).send({ error: String(e) });
+  }
 });
 app.get("/hello", (_req, res) => {
   res.send("Hello Full Stack");

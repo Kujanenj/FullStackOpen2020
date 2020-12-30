@@ -7,15 +7,15 @@ interface result {
   trainingDays: number;
   success: boolean;
   rating: number;
-  description: String;
+  description: string;
   target: number;
   average: number;
 }
 const parseArguments = (args: Array<string>): Calculator => {
   if (args.length < 4) throw new Error("Not enough arguments");
-  for (var i = 2; i < args.length; i++) {
+  for (let i = 2; i < args.length; i++) {
     if (isNaN(Number(args[i]))) {
-      console.log(args[i])
+      console.log(args[i]);
       throw new Error("Provided values were not numbers!");
     }
     return {
@@ -25,22 +25,23 @@ const parseArguments = (args: Array<string>): Calculator => {
   }
   return {
     list: [],
-    target:0
-  }
+    target: 0,
+  };
 };
 
 const calculateAverage = (list: Array<number>, target: number): result => {
   const trainingDays: number = list.filter((value) => value > 0).length;
   const periodLength: number = list.length;
-  var sum: number = 0;
-  for (var i = 0; i < list.length; i++) {
+  let sum = 0;
+  for (let i = 0; i < list.length; i++) {
     sum += list[i]; //don't forget to add the base
   }
 
-  var average: number = sum / list.length;
+  const average: number = sum / list.length;
+  
   const success: boolean = average >= target;
-  let rating: number = 3;
-  let description: string = "Success";
+  let rating = 3;
+  let description = "Success";
   if (!success) {
     if (target - average > 1) {
       rating = 1;
