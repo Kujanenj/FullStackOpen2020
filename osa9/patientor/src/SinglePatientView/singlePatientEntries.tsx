@@ -1,6 +1,8 @@
 import React from "react";
 import { Entry } from "../types";
 
+import {  useStateValue } from "../state";
+
 interface singlePatientEntriesProps {
   entries: Entry[];
 }
@@ -8,13 +10,18 @@ interface singleEntryProps {
   entry: Entry;
 }
 const SingleEntry: React.FC<singleEntryProps> = ({ entry }) => {
+      const [{ diagnoses }] = useStateValue();
   switch (entry.type) {
     case "OccupationalHealthcare":
         return (
             <div>
               {entry.description}
               {entry.diagnosisCodes?.map((diagnose) => (
-                <div key = {diagnose}>{diagnose}</div>
+                <div key = {diagnose}>{diagnose} 
+                    <br></br>
+                    {diagnoses[diagnose]?.name}
+                
+                </div>
               ))}
             </div>
           );
@@ -23,19 +30,27 @@ const SingleEntry: React.FC<singleEntryProps> = ({ entry }) => {
             <div>
               {entry.description}
               {entry.diagnosisCodes?.map((diagnose) => (
-                <div key = {diagnose}>{diagnose}</div>
+                <div key = {diagnose}>{diagnose} 
+                    <br></br>
+                    {diagnoses[diagnose]?.name}
+                
+                </div>
               ))}
             </div>
           );
     case "HealthCheck":
-      return (
-        <div>
-          {entry.description}
-          {entry.diagnosisCodes?.map((diagnose) => (
-            <div key = {diagnose}>{diagnose}</div>
-          ))}
-        </div>
-      );
+        return (
+            <div>
+              {entry.description}
+              {entry.diagnosisCodes?.map((diagnose) => (
+                <div key = {diagnose}>{diagnose} 
+                    <br></br>
+                    {diagnoses[diagnose]?.name}
+                
+                </div>
+              ))}
+            </div>
+          );
   }
 };
 const SinglePatientEntries: React.FC<singlePatientEntriesProps> = ({
