@@ -5,6 +5,8 @@ import { useParams } from "react-router";
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import { setSinglePatient, useStateValue } from "../state";
+import SinglePatientEntries from "./singlePatientEntries";
+
 
 const SinglePatientView: React.FC = () => {
   //const [{ patients }, dispatch] = useStateValue();
@@ -14,7 +16,6 @@ const SinglePatientView: React.FC = () => {
   const singlePatient = patients[id];
   React.useEffect(() => {
     const fetchPatient = async () => {
-      console.log("Getting someding");
       const { data: patient } = await axios.get<Patient>(
         `${apiBaseUrl}/patients/${id}`
       );
@@ -24,7 +25,7 @@ const SinglePatientView: React.FC = () => {
       fetchPatient();
     }
   }, [dispatch,id,singlePatient]);
-  if (!singlePatient) {
+  if (!singlePatient ||!singlePatient.ssn) {
     return <div></div>;
   }
   return (
@@ -40,6 +41,7 @@ const SinglePatientView: React.FC = () => {
       <br></br>
       {singlePatient.gender}
       <br></br>
+      <SinglePatientEntries entries = {singlePatient.entries}></SinglePatientEntries>
     </div>
   );
 };
