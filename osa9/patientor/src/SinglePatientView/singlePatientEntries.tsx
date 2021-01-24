@@ -1,8 +1,12 @@
 import React from "react";
 import { Entry } from "../types";
-
+import { Icon, Segment } from 'semantic-ui-react'
 import {  useStateValue } from "../state";
-
+const assertNever = (value: never): never => {
+    throw new Error(
+      `Unhandled discriminated union member: ${JSON.stringify(value)}`
+    );
+  };
 interface singlePatientEntriesProps {
   entries: Entry[];
 }
@@ -16,6 +20,7 @@ const SingleEntry: React.FC<singleEntryProps> = ({ entry }) => {
         return (
             <div>
               {entry.description}
+              <Icon name='building' size='large' />
               {entry.diagnosisCodes?.map((diagnose) => (
                 <div key = {diagnose}>{diagnose} 
                     <br></br>
@@ -29,6 +34,7 @@ const SingleEntry: React.FC<singleEntryProps> = ({ entry }) => {
         return (
             <div>
               {entry.description}
+              <Icon name='hospital' size='large' />
               {entry.diagnosisCodes?.map((diagnose) => (
                 <div key = {diagnose}>{diagnose} 
                     <br></br>
@@ -42,6 +48,7 @@ const SingleEntry: React.FC<singleEntryProps> = ({ entry }) => {
         return (
             <div>
               {entry.description}
+              <Icon name='heart' size='large' />
               {entry.diagnosisCodes?.map((diagnose) => (
                 <div key = {diagnose}>{diagnose} 
                     <br></br>
@@ -51,6 +58,8 @@ const SingleEntry: React.FC<singleEntryProps> = ({ entry }) => {
               ))}
             </div>
           );
+          default:
+              return assertNever(entry)
   }
 };
 const SinglePatientEntries: React.FC<singlePatientEntriesProps> = ({
@@ -60,7 +69,9 @@ const SinglePatientEntries: React.FC<singlePatientEntriesProps> = ({
     <div>
       <h2>Entries:</h2>
       {entries.map((patientEntry) => (
-        <SingleEntry key={patientEntry.id} entry={patientEntry}></SingleEntry>
+         <Segment key={patientEntry.id} >
+        <SingleEntry entry={patientEntry}></SingleEntry>
+        </Segment>
       ))}
     </div>
   );
